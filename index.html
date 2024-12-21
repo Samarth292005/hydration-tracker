@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydration Tracker</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #85FFBD, #FFFB7D);
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #0077b6;
+        }
+
+        input[type="number"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            background: #0077b6;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #005f86;
+        }
+
+        .progress-bar {
+            background: #ddd;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar-inner {
+            height: 30px;
+            background: #0077b6;
+            width: 0%;
+            line-height: 30px;
+            color: white;
+            text-align: center;
+            transition: width 0.5s;
+        }
+
+        footer {
+            margin-top: 30px;
+            padding: 10px;
+            background: #0077b6;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hydration Tracker</h1>
+        <p>Set your hydration goal and track your progress.</p>
+
+        <!-- Set Goal -->
+        <div>
+            <h3>Set Your Daily Goal (Liters):</h3>
+            <input type="number" id="goalInput" placeholder="Enter your goal in liters" min="1">
+            <button onclick="setGoal()">Set Goal</button>
+        </div>
+
+        <!-- Log Intake -->
+        <div>
+            <h3>Log Water Intake (Liters):</h3>
+            <input type="number" id="intakeInput" placeholder="Enter water intake in liters" min="0.1" step="0.1">
+            <button onclick="logIntake()">Log Intake</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div>
+            <h3>Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-bar-inner" id="progressBar">0%</div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 Hydration Tracker | Stay Healthy & Hydrated!
+    </footer>
+
+    <script>
+        let dailyGoal = 0;
+        let currentIntake = 0;
+
+        // Set daily goal
+        function setGoal() {
+            const goalInput = document.getElementById('goalInput').value;
+            if (goalInput && goalInput > 0) {
+                dailyGoal = parseFloat(goalInput);
+                alert(`Daily hydration goal set to ${dailyGoal} liters.`);
+                updateProgress();
+            } else {
+                alert('Please enter a valid goal.');
+            }
+        }
+
+        // Log water intake
+        function logIntake() {
+            const intakeInput = document.getElementById('intakeInput').value;
+            if (intakeInput && intakeInput > 0) {
+                currentIntake += parseFloat(intakeInput);
+                alert(`${intakeInput} liters added to your intake.`);
+                updateProgress();
+            } else {
+                alert('Please enter a valid intake amount.');
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            if (dailyGoal > 0) {
+                const progress = Math.min((currentIntake / dailyGoal) * 100, 100);
+                progressBar.style.width = `${progress}%`;
+                progressBar.textContent = `${Math.round(progress)}%`;
+                if (progress >= 100) {
+                    alert('Congratulations! You reached your daily hydration goal!');
+                }
+            } else {
+                alert('Please set a daily goal first.');
+            }
+        }
+    </script>
+</body>
+</html>
